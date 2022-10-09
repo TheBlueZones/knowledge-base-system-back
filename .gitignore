@@ -1,9 +1,13 @@
+/log/
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+###
+bin/: 忽略当前路径下的bin文件夹，该文件夹下的所有内容都会被忽略，不忽略 bin 文件
+   /bin: 忽略根目录下的bin文件
+   ###
 ### STS ###
 .apt_generated
 .classpath
