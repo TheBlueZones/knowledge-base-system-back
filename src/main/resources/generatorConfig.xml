@@ -19,7 +19,7 @@
         </commentGenerator>
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql:43.140.203.85:3306/knowledge_base?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
+                        connectionURL="jdbc:mysql://43.140.203.85:3306/knowledge_base?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull"
                         userId="knowledge_base"
                         password="know1234">
             <property name="nullCatalogMeansCurrent" value="true"/>
@@ -48,10 +48,11 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table schema="root" tableName="user" domainObjectName="User"
+        <table schema="root" tableName="ebook" domainObjectName="Ebook"
                enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+        <!--<table tableName="ebook"></table>-->
     </context>
 </generatorConfiguration>
