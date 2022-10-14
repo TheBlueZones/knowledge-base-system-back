@@ -6,6 +6,7 @@ import com.knowledge_base.model.dao.EbookMapper;
 import com.knowledge_base.model.pojo.Ebook;
 import com.knowledge_base.model.pojo.EbookExample;
 import com.knowledge_base.req.EbookQueryReq;
+import com.knowledge_base.req.EbookSaveReq;
 import com.knowledge_base.resp.EbookQueryResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.util.CopyUtil;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -65,10 +67,13 @@ public class EbookService {
         return pageResp;
     }
 
-    public void save(EbookQueryReq req) {
+    public void save(@Valid EbookSaveReq req) {
         Ebook ebook = CopyUtil.copy(req, Ebook.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             // 新增
+            ebook.setDocCount(0);
+            ebook.setViewCount(0);
+            ebook.setVoteCount(0);
             ebook.setId(snowFlake.nextId());
             ebookMapper.insert(ebook);
         } else {

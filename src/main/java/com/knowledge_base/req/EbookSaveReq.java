@@ -17,6 +17,7 @@ public class EbookSaveReq {
 
     private String cover;
 
+
     private Integer docCount;
 
     private Integer viewCount;
