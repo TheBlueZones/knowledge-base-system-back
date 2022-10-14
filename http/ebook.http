@@ -1,0 +1,18 @@
+GET http://127.0.0.1:8102/ebook/list?page=1&size=1001
+
+###
+
+POST http://localhost:8102/ebook/save
+Content-Type: application/json
+
+{}
+
+###
+
+POST http://localhost:80/api/item
+Content-Type: application/x-www-form-urlencoded
+#以这种form表单式的提交，不需要注解
+
+id=99&content=new-element
+
+###
