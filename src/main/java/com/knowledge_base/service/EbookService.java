@@ -7,6 +7,7 @@ import com.knowledge_base.model.pojo.Ebook;
 import com.knowledge_base.model.pojo.EbookExample;
 import com.knowledge_base.req.EbookQueryReq;
 import com.knowledge_base.req.EbookSaveReq;
+import com.knowledge_base.resp.CommonResp;
 import com.knowledge_base.resp.EbookQueryResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.util.CopyUtil;
@@ -82,8 +83,16 @@ public class EbookService {
         }
     }
 
-    public void delete(Long id) {
-        ebookMapper.deleteByPrimaryKey(id);
+    public CommonResp delete(Long id) {
+        CommonResp resp = new CommonResp();
+        int result = ebookMapper.deleteByPrimaryKey(id);
+        if (result == 0) {
+            resp.setMessage("删除失败");
+            resp.setSuccess(false);
+        }else {
+            resp.setMessage("删除成功");
+        }
+        return resp;
     }
 }
 

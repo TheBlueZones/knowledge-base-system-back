@@ -16,3 +16,13 @@ Content-Type: application/x-www-form-urlencoded
 id=99&content=new-element
 
 ###
+DELETE http://localhost:8102/ebook/delete/236062707575558144
+
+id=99&content=new-element
+
+###
+
+###
+
+
+###
