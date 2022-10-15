@@ -79,7 +79,7 @@ public class EbookService {
             ebookMapper.insert(ebook);
         } else {
             // 更新
-            ebookMapper.updateByPrimaryKey(ebook);
+            System.out.println( ebookMapper.updateByPrimaryKey(ebook));
         }
     }
 
