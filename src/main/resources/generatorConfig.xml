@@ -40,8 +40,8 @@
                              targetPackage="com.knowledge_base.model.dao"
                              type="XMLMAPPER"/>
 
-        <table tableName="ebook"/>
-        <!--<table tableName="category"/>-->
+        <!--<table tableName="ebook"/>-->
+        <table tableName="category"/>
         <!--<table tableName="doc"/>-->
         <!--<table tableName="content"/>-->
         <!--<table tableName="user"/>-->
