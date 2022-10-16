@@ -33,10 +33,11 @@ public class CategoryService {
 
 
     public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
-        CategoryExample eategoryExample = new CategoryExample();
-        CategoryExample.Criteria criteria = eategoryExample.createCriteria();
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        CategoryExample.Criteria criteria = categoryExample.createCriteria();
         PageHelper.startPage(req.getPage(), req.getSize());
-        List<Category> eategoryList = eategoryMapper.selectByExample(eategoryExample);
+        List<Category> eategoryList = eategoryMapper.selectByExample(categoryExample);
 
         PageInfo<Category> pageInfo = new PageInfo<>(eategoryList);
         LOG.info("总行数：{}", pageInfo.getTotal());
@@ -60,6 +61,16 @@ public class CategoryService {
         pageResp.setList(list);
 
         return pageResp;
+    }
+    public List<CategoryQueryResp> all() {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> eategoryList = eategoryMapper.selectByExample(categoryExample);
+
+        // 列表复制
+        List<CategoryQueryResp> list = CopyUtil.copyList(eategoryList, CategoryQueryResp.class);
+
+        return list;
     }
 
     public void save(@Valid CategorySaveReq req) {
