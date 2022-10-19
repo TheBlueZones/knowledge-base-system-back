@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -44,9 +45,11 @@ public class DocController {
     }
 
     /*@PathVariable用于{id}和id映射*/
-    @DeleteMapping("/delete/{id}")
-    public CommonResp delete(@PathVariable Long id) {
-        CommonResp resp = docService.delete(id);
+    @DeleteMapping("/delete/{idsStr}")
+    public CommonResp delete(@PathVariable String idsStr) {
+        List<String> list = Arrays.asList(idsStr.split(","));
+        CommonResp resp = docService.delete(list);
+
         return resp;
     }
 }
