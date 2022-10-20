@@ -2,7 +2,9 @@ package com.knowledge_base.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.knowledge_base.model.dao.ContentMapper;
 import com.knowledge_base.model.dao.DocMapper;
+import com.knowledge_base.model.pojo.Content;
 import com.knowledge_base.model.pojo.Doc;
 import com.knowledge_base.model.pojo.DocExample;
 import com.knowledge_base.req.DocQueryReq;
@@ -28,6 +30,8 @@ public class DocService {
 
     @Resource
     private DocMapper docMapper;
+    @Resource
+    private ContentMapper contentMapper;
     @Resource
     private SnowFlake snowFlake;
 
@@ -76,6 +80,7 @@ public class DocService {
 
     public void save(@Valid DocSaveReq req) {
         Doc doc = CopyUtil.copy(req, Doc.class);
+        Content content = CopyUtil.copy(req, Content.class);
         if (ObjectUtils.isEmpty(req.getId())) {
             // 新增
 //            doc.setDocCount(0);
@@ -83,9 +88,14 @@ public class DocService {
 //            doc.setVoteCount(0);
             doc.setId(snowFlake.nextId());
             docMapper.insert(doc);
+
+            content.setId(doc.getId());
+            contentMapper.insert(content);
         } else {
             // 更新
             System.out.println(docMapper.updateByPrimaryKey(doc));
+            contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            /*这个带了大字段*/
         }
     }
 

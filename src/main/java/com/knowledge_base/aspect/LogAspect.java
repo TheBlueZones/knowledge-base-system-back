@@ -27,13 +27,17 @@ public class LogAspect {
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
     /** 定义一个切点 */
-    @Pointcut("execution(public * com.knowledge_base.*.controller..*Controller.*(..))")
+    @Pointcut("execution(public * com.knowledge_base.controller..*Controller.*(..))")
     public void controllerPointcut() {}
 
 
+/*    @Resource
+    private SnowFlake snowFlake;*/
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
 
+    /*    // 增加日志流水号
+        MDC.put("LOG_ID", String.valueOf(snowFlake.nextId()));*/
 
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

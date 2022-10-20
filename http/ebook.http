@@ -1,4 +1,4 @@
-GET http://127.0.0.1:8102/ebook/list?page=1&size=1001
+GET http://127.0.0.1:8102/ebook/list?page=1&size=1000
 
 ###
 
