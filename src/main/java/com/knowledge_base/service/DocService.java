@@ -94,8 +94,11 @@ public class DocService {
         } else {
             // 更新
             System.out.println(docMapper.updateByPrimaryKey(doc));
-            contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            int result =contentMapper.updateByPrimaryKeyWithBLOBs(content);
             /*这个带了大字段*/
+            if (result == 0) {
+                contentMapper.insert(content);
+            }
         }
     }
 
