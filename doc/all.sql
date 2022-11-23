@@ -92,7 +92,7 @@ create table `user` (
   `name` varchar(50) comment '昵称',
   `password` char(32) not null comment '密码',
   primary key (`id`),
-  unique key `login_name_unique` (`login_name`)
+  unique key `login_name_unique` (`login_name`)/*我一键，login_name_unique，对应login_name*/
 ) engine=innodb default charset=utf8mb4 comment='用户';
 
 insert into `user` (id, `login_name`, `name`, `password`) values (1, 'test', '测试', 'e70e2222a9d67c4f2eae107533359aa4');

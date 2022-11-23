@@ -1,9 +1,9 @@
-/*
+
 package com.knowledge_base.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.jiawa.wiki.resp.UserLoginResp;
-import com.jiawa.wiki.util.LoginUserContext;
+import com.knowledge_base.resp.UserLoginResp;
+import com.knowledge_base.util.LoginUserContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,10 +16,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-*/
+
 /**
  * 拦截器：Spring框架特有的，常用于登录校验，权限校验，请求日志打印
- *//*
+ */
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -60,6 +60,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         } else {
             LOG.info("已登录：{}", object);
+            LOG.info("{}",object);
             LoginUserContext.setUser(JSON.parseObject((String) object, UserLoginResp.class));
             return true;
         }
@@ -76,4 +77,4 @@ public class LoginInterceptor implements HandlerInterceptor {
 //        LOG.info("LogInterceptor 结束");
     }
 }
-*/
+

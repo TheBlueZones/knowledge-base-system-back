@@ -67,8 +67,10 @@ public class DocService {
         return pageResp;
     }
 
-    public List<DocQueryResp> all() {
+    public List<DocQueryResp> all(Long ebookId) {
         DocExample docExample = new DocExample();
+        docExample.createCriteria().andEbookIdEqualTo(ebookId);
+        /*EbookId 有就去查，没有就不查*/
         docExample.setOrderByClause("sort asc");
         List<Doc> docList = docMapper.selectByExample(docExample);
 
@@ -127,6 +129,16 @@ public class DocService {
             resp.setMessage("删除成功");
         }
         return resp;
+    }
+
+    public String findContent(Long id) {
+        Content content=contentMapper.selectByPrimaryKey(id);
+        if(ObjectUtils.isEmpty(content)){
+            return "";
+        }else{
+            return content.getContent();/*报异常是getcontent的*/
+        }
+
     }
 }
 
