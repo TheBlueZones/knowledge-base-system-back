@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.knowledge_base.model.dao.ContentMapper;
 import com.knowledge_base.model.dao.DocMapper;
+import com.knowledge_base.model.dao.MyDocMapper;
 import com.knowledge_base.model.pojo.Content;
 import com.knowledge_base.model.pojo.Doc;
 import com.knowledge_base.model.pojo.DocExample;
@@ -30,10 +31,15 @@ public class DocService {
 
     @Resource
     private DocMapper docMapper;
+
+    @Resource
+    private MyDocMapper myDocMapper;
     @Resource
     private ContentMapper contentMapper;
     @Resource
     private SnowFlake snowFlake;
+
+
 
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
@@ -133,12 +139,15 @@ public class DocService {
 
     public String findContent(Long id) {
         Content content=contentMapper.selectByPrimaryKey(id);
+//        文档阅读数+1
+        myDocMapper.increaseViewCount(id);
         if(ObjectUtils.isEmpty(content)){
             return "";
         }else{
             return content.getContent();/*报异常是getcontent的*/
         }
-
     }
+
+
 }
 
