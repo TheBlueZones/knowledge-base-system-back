@@ -2,6 +2,8 @@ package com.knowledge_base.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.knowledge_base.exception.BusinessException;
+import com.knowledge_base.exception.BusinessExceptionCode;
 import com.knowledge_base.model.dao.ContentMapper;
 import com.knowledge_base.model.dao.DocMapper;
 import com.knowledge_base.model.dao.MyDocMapper;
@@ -10,10 +12,12 @@ import com.knowledge_base.model.pojo.Doc;
 import com.knowledge_base.model.pojo.DocExample;
 import com.knowledge_base.req.DocQueryReq;
 import com.knowledge_base.req.DocSaveReq;
-import com.knowledge_base.resp.DocQueryResp;
 import com.knowledge_base.resp.CommonResp;
+import com.knowledge_base.resp.DocQueryResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.util.CopyUtil;
+import com.knowledge_base.util.RedisUtil;
+import com.knowledge_base.util.RequestContext;
 import com.knowledge_base.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +35,14 @@ public class DocService {
 
     @Resource
     private DocMapper docMapper;
-
     @Resource
     private MyDocMapper myDocMapper;
     @Resource
     private ContentMapper contentMapper;
     @Resource
     private SnowFlake snowFlake;
+    @Resource
+    private RedisUtil redisUtil;
 
 
 
@@ -149,7 +154,16 @@ public class DocService {
     }
 
     public void vote(Long id){
-        myDocMapper.increaseVoteCount(id);
+//        myDocMapper.increaseVoteCount(id);
+//        远程IP+doc.id作为key，24小时不重复
+        String ip = RequestContext.getRemoteAddr();
+
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 3600* 24)) {
+            myDocMapper.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
+
     }
 
 }
