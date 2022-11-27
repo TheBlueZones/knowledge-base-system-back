@@ -10,6 +10,7 @@ import com.knowledge_base.resp.CommonResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.resp.UserLoginResp;
 import com.knowledge_base.resp.UserQueryResp;
+import com.knowledge_base.service.DocService;
 import com.knowledge_base.service.UserService;
 import com.knowledge_base.util.SnowFlake;
 import org.slf4j.Logger;
@@ -28,9 +29,9 @@ public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     @Resource
     private UserService userService;
-
-
     @Resource
+    private DocService docService;
+
     private SnowFlake snowFlake;
 
     @Resource
@@ -94,4 +95,7 @@ public class UserController {
         LOG.info("删除redis中的token：{}", token);
         return resp;
     }
+
+
+
 }

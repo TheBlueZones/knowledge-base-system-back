@@ -3,10 +3,12 @@ package com.knowledge_base.controller;
 
 import com.knowledge_base.req.DocQueryReq;
 import com.knowledge_base.req.DocSaveReq;
-import com.knowledge_base.resp.DocQueryResp;
 import com.knowledge_base.resp.CommonResp;
+import com.knowledge_base.resp.DocQueryResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.service.DocService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,6 +22,9 @@ public class DocController {
 
     @Resource
     private DocService docService;
+
+    private static final Logger LOG = LoggerFactory.getLogger(DocController.class);
+    
 
     @GetMapping("/list")
     public CommonResp list( @Valid DocQueryReq req) {
@@ -58,6 +63,14 @@ public class DocController {
         CommonResp<String> resp = new CommonResp<>();
          String content = docService.findContent(id);
         resp.setContent(content);
+        return resp;
+    }
+
+    @GetMapping("/vote/{id}")
+    public CommonResp vote(@PathVariable Long id) {
+        LOG.info("点赞");
+        CommonResp resp = new CommonResp<>();
+        docService.vote(id);
         return resp;
     }
 }
