@@ -10,7 +10,6 @@ import com.knowledge_base.resp.CommonResp;
 import com.knowledge_base.resp.PageResp;
 import com.knowledge_base.resp.UserLoginResp;
 import com.knowledge_base.resp.UserQueryResp;
-import com.knowledge_base.service.DocService;
 import com.knowledge_base.service.UserService;
 import com.knowledge_base.util.SnowFlake;
 import org.slf4j.Logger;
@@ -30,8 +29,6 @@ public class UserController {
     @Resource
     private UserService userService;
     @Resource
-    private DocService docService;
-
     private SnowFlake snowFlake;
 
     @Resource
@@ -72,12 +69,16 @@ public class UserController {
 
     @PostMapping("/login")
     public CommonResp login(@Valid @RequestBody UserLoginReq req) {
+        LOG.info("进入方法————————————1————————————");
         req.setPassword(DigestUtils.md5DigestAsHex(req.getPassword().getBytes()));
+        LOG.info("进入方法————————————2————————————");
         CommonResp<UserLoginResp> resp = new CommonResp<>();
+        LOG.info("进入方法—————————————3———————————");
         UserLoginResp userLoginResp = userService.login(req);
-
+        LOG.info("进入方法—————————————4———————————");
         //        生成单点登录的token，放入redis
         Long token = snowFlake.nextId();/*雪花算法生成一个token*/
+        LOG.info("进入方法—————————————5———————————");
         LOG.info("生成单点登录token：{}，并放入redis中", token);
         userLoginResp.setToken(token.toString());
         //JSONObject.toJSONString(userLoginResp) 转换成json格式字符串

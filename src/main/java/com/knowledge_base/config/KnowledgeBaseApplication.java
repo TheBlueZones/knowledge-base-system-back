@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @ComponentScan("com.knowledge_base")
 @MapperScan(basePackages = "com.knowledge_base.model.dao")
-@EnableScheduling
+@EnableScheduling//定时器
 @EnableAsync
 public class KnowledgeBaseApplication {
     private static final Logger LOG = LoggerFactory.getLogger(KnowledgeBaseApplication.class);

@@ -8,7 +8,7 @@ public class DocSaveReq {
     @NotNull(message = "【电子书】不能为空")
     private Long ebookId;
 
-    @NotNull(message = "【父文档】不能为空")
+//    @NotNull(message = "【父文档】不能为空")
     private Long parent;
 
     @NotNull(message = "【名称】不能为空")
