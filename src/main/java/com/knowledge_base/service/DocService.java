@@ -19,6 +19,7 @@ import com.knowledge_base.util.CopyUtil;
 import com.knowledge_base.util.RedisUtil;
 import com.knowledge_base.util.RequestContext;
 import com.knowledge_base.util.SnowFlake;
+import com.knowledge_base.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,8 +44,8 @@ public class DocService {
     private SnowFlake snowFlake;
     @Resource
     private RedisUtil redisUtil;
-
-
+    @Resource
+    private WebSocketServer webSocketServer;
 
 
     public PageResp<DocQueryResp> list(DocQueryReq req) {
@@ -107,7 +108,7 @@ public class DocService {
         } else {
             // 更新
             System.out.println(docMapper.updateByPrimaryKey(doc));
-            int result =contentMapper.updateByPrimaryKeyWithBLOBs(content);
+            int result = contentMapper.updateByPrimaryKeyWithBLOBs(content);
             /*这个带了大字段*/
             if (result == 0) {
                 contentMapper.insert(content);
@@ -143,26 +144,29 @@ public class DocService {
     }
 
     public String findContent(Long id) {
-        Content content=contentMapper.selectByPrimaryKey(id);
+        Content content = contentMapper.selectByPrimaryKey(id);
 //        文档阅读数+1
         myDocMapper.increaseViewCount(id);
-        if(ObjectUtils.isEmpty(content)){
+        if (ObjectUtils.isEmpty(content)) {
             return "";
-        }else{
+        } else {
             return content.getContent();/*报异常是getcontent的*/
         }
     }
 
-    public void vote(Long id){
+    public void vote(Long id) {
 //        myDocMapper.increaseVoteCount(id);
 //        远程IP+doc.id作为key，24小时不重复
         String ip = RequestContext.getRemoteAddr();
 
-        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 3600* 24)) {
+        if (redisUtil.validateRepeat("DOC_VOTE_" + id + "_" + ip, 3600 * 24)) {
             myDocMapper.increaseVoteCount(id);
         } else {
             throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
         }
+//推送消息
+        Doc doc = docMapper.selectByPrimaryKey(id);
+        webSocketServer.sendInfo("【"+doc.getName()+"】" + "被点赞！");
     }
 
     public void updateEbookInfo() {
