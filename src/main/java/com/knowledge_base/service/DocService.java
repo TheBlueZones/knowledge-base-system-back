@@ -19,9 +19,9 @@ import com.knowledge_base.util.CopyUtil;
 import com.knowledge_base.util.RedisUtil;
 import com.knowledge_base.util.RequestContext;
 import com.knowledge_base.util.SnowFlake;
-import com.knowledge_base.websocket.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -166,7 +166,8 @@ public class DocService {
         }
 //推送消息
         Doc doc = docMapper.selectByPrimaryKey(id);
-        wsService.sendInfo("【" + doc.getName() + "】" + "被点赞！");
+        String log_id = MDC.get("LOG_ID");
+        wsService.sendInfo("【" + doc.getName() + "】" + "被点赞！", log_id);
     }
 
     public void updateEbookInfo() {
