@@ -47,8 +47,7 @@ public class DocService {
     private RedisUtil redisUtil;
     @Resource
     private WsService wsService;
-//    @Resource
-//    private RocketMQTemplate rocketMQTemplate;
+//
 
 
 
