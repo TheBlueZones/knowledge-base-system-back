@@ -1,6 +1,6 @@
 ### knowledge-base-system-back
 
-这是一个知识库项目，是照着视频敲的，后端用了springBoot，redis。
+这是一个知识库项目，后端用了springBoot+redis+mysql+mybatis
 
 线上体验地址：http://xrkb.thebluezones.top
 
